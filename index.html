@@ -6,6 +6,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
   <title>Scatter Plot</title>
   <style media="screen">
+      .doping {
+        fill: red;
+      }
+
+      .non-doping {
+        fill: green;
+      }
   </style>
 </head>
 <body>
@@ -50,11 +57,27 @@ const data = d3.json('data/data.json',function(data){
   // data.map(function(d){ return console.log(d.Seconds-2210);})   // d.seconds -2210
 
 const xAxis = d3.axisBottom(x)
+                .tickFormat(function(d) {
+                  let hours = Math.floor(d / 3600),
+                      minutes = Math.floor((d - (hours * 3600)) / 60),
+                      seconds = d - (minutes * 60);
+                  let output = seconds + 's';
+                  if (minutes) {
+                      output = minutes + 'm ' + output;
+                  }
+                  if (hours) {
+                      output = hours + 'h ' + output;
+                  }
+                  return output;
+                });
+
                 // .tickValues(data.map(function(d){ return (d.Seconds);}));   // 2210 2385 ...
+                // .tickValues(d3.range(0, 180, 50));
                // .ticks(d3.timeSecond.every(50));
        // .tickValues(d3.range(0, width, 100))
        // .tickPadding(10)
         // .tickFormat(d3.timeFormat("%S"));
+        // console.log(xAxis(2500));
 const yAxis = d3.axisLeft(y)
              .tickFormat(d3.format(",.0f"))
              .ticks(5);
@@ -71,12 +94,37 @@ svg.append("g")
   .data(data)
 .enter().append("circle")
   // .style("fill", "steelblue")
-  .attr("class", "circle")
+  .attr("class", function(d,i){
+    if(d["Doping"]){
+      return "doping";
+    } else {
+      return "non-doping";
+    }
+  })
   .attr("cx", function(d) { return x(d.Seconds)+margin.left; })
   .attr("cy", function(d) { return y(d.Place)+margin.top; })
-  .attr("r", "3px");
+  .attr("r", "5px");
 
+
+  // Formatters for counts and times (converting numbers to Dates).
+  // var  formatMinutes = function(d) {
+  //         let hours = Math.floor(d / 3600),
+  //             minutes = Math.floor((d - (hours * 3600)) / 60),
+  //             seconds = d - (minutes * 60);
+  //         let output = seconds + 's';
+  //         if (minutes) {
+  //             output = minutes + 'm ' + output;
+  //         }
+  //         if (hours) {
+  //             output = hours + 'h ' + output;
+  //         }
+  //         return output;
+  //     };
+
+      // console.log(formatMinutes(2100));   //valid 20m 00sec
 
 });
+
+
 
 </script>
