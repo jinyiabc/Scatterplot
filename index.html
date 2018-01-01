@@ -9,15 +9,34 @@
       .doping {
         fill: red;
       }
-
+      .doping:hover {
+        fill: brown;
+      }
       .non-doping {
         fill: green;
+      }
+      .non-doping:hover {
+        fill: brown;
+      }
+      div.tooltip {
+        position: absolute;
+        text-align: center;
+        width: 100px;
+        height: 50;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: lightsteelblue;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
       }
   </style>
 </head>
 <body>
 <script type="text/javascript">
-
+const div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
 const svg = d3.select("body").append("svg")
     .attr("width", 960)
@@ -103,7 +122,20 @@ svg.append("g")
   })
   .attr("cx", function(d) { return x(d.Seconds)+margin.left; })
   .attr("cy", function(d) { return y(d.Place)+margin.top; })
-  .attr("r", "5px");
+  .attr("r", "5px")
+  .on("mouseover", function(d) {
+              div.transition()
+                  .duration(200)
+                  .style("opacity", .9);
+              div	.html(d["Time"] + "," + d["Year"] + "<br/>"  + d["Doping"])
+                  .style("left", (d3.event.pageX) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+              })
+  .on("mouseout", function(d) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+  });
 
 
   // Formatters for counts and times (converting numbers to Dates).
