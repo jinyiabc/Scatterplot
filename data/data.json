@@ -1,5 +1,15 @@
 [
   {
+    "Time": "39:45",
+    "Place": 31,
+    "Seconds": 2385,
+    "Name": "Fernando Escartin",
+    "Year": 1995,
+    "Nationality": "ESP",
+    "Doping": "Implicated in Giardini Margherita Raid in 1998 as a 'victim' ",
+    "URL": "http://www.dopeology.org/incidents/Giardini-Margherita-raid-%5bBologna%5d/"
+  },
+  {
     "Time": "36:50",
     "Place": 1,
     "Seconds": 2210,
@@ -298,16 +308,6 @@
     "Nationality": "RUS",
     "Doping": "Made payments to Ferrari, but no charges filed",
     "URL": "http://www.dopeology.org/incidents/Ferrari-investigation/"
-  },
-  {
-    "Time": "39:45",
-    "Place": 31,
-    "Seconds": 2385,
-    "Name": "Fernando Escartin",
-    "Year": 1995,
-    "Nationality": "ESP",
-    "Doping": "Implicated in Giardini Margherita Raid in 1998 as a 'victim' ",
-    "URL": "http://www.dopeology.org/incidents/Giardini-Margherita-raid-%5bBologna%5d/"
   },
   {
     "Time": "39:47",

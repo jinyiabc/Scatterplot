@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+  <title>Scatter Plot</title>
+  <style media="screen">
+  </style>
+</head>
+<body>
+<script type="text/javascript">
+
+
+const svg = d3.select("body").append("svg")
+    .attr("width", 960)
+    .attr("height", 500);
+
+const margin = {
+    top: 20,
+    right: 30,
+    bottom: 30,
+    left: 40
+  },
+  width = 960 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
+
+const x = d3.scaleLinear()
+            .range([width,0]);
+
+const y = d3.scaleLinear()
+            .range([0,height]);
+
+const data = d3.json('data/data.json',function(data){
+  console.log(data);
+  // data.forEach(function(d) {
+  //        d.Seconds = parseTime(d.Seconds);
+  //    });
+
+  data.sort(function(x, y){
+   return d3.ascending(x.Seconds, y.Seconds);
+});
+  // const min = data[0]['Seconds'];
+  // console.log(min);
+  x.domain(d3.extent(data,d => d.Seconds));
+  y.domain(d3.extent(data,d => d.Place));
+
+  console.log(x.domain());
+  // console.log(y.domain());
+  // data.map(function(d){ return console.log(d.Seconds-2210);})   // d.seconds -2210
+
+const xAxis = d3.axisBottom(x)
+                // .tickValues(data.map(function(d){ return (d.Seconds);}));   // 2210 2385 ...
+               // .ticks(d3.timeSecond.every(50));
+       // .tickValues(d3.range(0, width, 100))
+       // .tickPadding(10)
+        // .tickFormat(d3.timeFormat("%S"));
+const yAxis = d3.axisLeft(y)
+             .tickFormat(d3.format(",.0f"))
+             .ticks(5);
+
+svg.append("g")
+ .attr("transform", "translate("+margin.left+","+(height+margin.top)+")")
+ .call(xAxis);
+svg.append("g")
+.attr("transform", "translate("+margin.left+","+margin.top+")")
+ .call(yAxis);
+
+
+ svg.selectAll("circle")
+  .data(data)
+.enter().append("circle")
+  // .style("fill", "steelblue")
+  .attr("class", "circle")
+  .attr("cx", function(d) { return x(d.Seconds)+margin.left; })
+  .attr("cy", function(d) { return y(d.Place)+margin.top; })
+  .attr("r", "3px");
+
+
+});
+
+</script>
